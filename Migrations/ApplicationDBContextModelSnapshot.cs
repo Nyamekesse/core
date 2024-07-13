@@ -33,7 +33,8 @@ namespace ef_core.Migrations
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasPrecision(10, 5)
+                        .HasColumnType("numeric(10,5)");
 
                     b.Property<string>("Title")
                         .IsRequired()

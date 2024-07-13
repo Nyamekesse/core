@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ef_core.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240712211739_ChangePriceDatatypeToDecimal")]
-    partial class ChangePriceDatatypeToDecimal
+    [Migration("20240713203219_ChangePriceCOlumnToDEcimalPrecision")]
+    partial class ChangePriceCOlumnToDEcimalPrecision
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,8 @@ namespace ef_core.Migrations
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasPrecision(10, 5)
+                        .HasColumnType("numeric(10,5)");
 
                     b.Property<string>("Title")
                         .IsRequired()
