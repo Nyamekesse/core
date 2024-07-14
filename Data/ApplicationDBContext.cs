@@ -37,12 +37,23 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options
             .HasColumnName("NoOfChapters");
         modelBuilder.Entity<Fluent_BookDetail>().Property(p => p.NumberOfChapters).IsRequired();
         modelBuilder.Entity<Fluent_BookDetail>().HasKey(p => p.BookDetail_Id);
+        modelBuilder
+            .Entity<Fluent_BookDetail>()
+            .HasOne(b => b.Book)
+            .WithOne(b => b.BookDetail)
+            .HasForeignKey<Fluent_BookDetail>(b => b.Book_Id)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Fluent_Book
-        modelBuilder.Entity<Fluent_Book>().HasKey(p => p.Book_Id);
-        modelBuilder.Entity<Fluent_Book>().Property(p => p.ISBN).IsRequired();
-        modelBuilder.Entity<Fluent_Book>().Property(p => p.ISBN).HasMaxLength(50);
-        modelBuilder.Entity<Fluent_Book>().Ignore(p => p.PriceRange);
+        modelBuilder.Entity<Fluent_Book>().HasKey(b => b.Book_Id);
+        modelBuilder.Entity<Fluent_Book>().Property(b => b.ISBN).IsRequired();
+        modelBuilder.Entity<Fluent_Book>().Property(b => b.ISBN).HasMaxLength(50);
+        modelBuilder.Entity<Fluent_Book>().Ignore(b => b.PriceRange);
+        modelBuilder
+            .Entity<Fluent_Book>()
+            .HasOne(b => b.Publisher)
+            .WithMany(b => b.Books)
+            .HasForeignKey(b => b.Publisher_Id);
 
         // Fluent_Publisher
         modelBuilder.Entity<Fluent_Publisher>().HasKey(p => p.Publisher_Id);
