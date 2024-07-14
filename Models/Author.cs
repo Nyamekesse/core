@@ -11,17 +11,18 @@ public class Author
     public string FirstName { get; set; }
 
     [Required]
-    public int LastName { get; set;}
+    public int LastName { get; set; }
 
     public DateTime BirthDate { get; set; }
 
     public string Location { get; set; }
 
     [NotMapped]
-    public string FullName 
-    { 
-        get {
-        return $"{FirstName} {LastName}";
-    } 
+    public string FullName
+    {
+        get
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }
