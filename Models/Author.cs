@@ -20,9 +20,7 @@ public class Author
     [NotMapped]
     public string FullName
     {
-        get
-        {
-            return $"{FirstName} {LastName}";
-        }
+        get { return $"{FirstName} {LastName}"; }
     }
+    public List<Book> Books { get; set; }
 }
