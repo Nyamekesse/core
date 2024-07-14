@@ -9,4 +9,5 @@ public class Book
 
     [NotMapped]
     public string PriceRange { get; set; }
+    public BookDetail BookDetail { get; set; }
 }
