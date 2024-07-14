@@ -68,6 +68,17 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options
 
         modelBuilder.Entity<Book>().Property(p => p.Price).HasPrecision(10, 5);
         modelBuilder.Entity<BookAuthorMap>().HasKey(u => new { u.Author_Id, u.Book_Id });
+        modelBuilder.Entity<Fluent_BookAuthorMap>().HasKey(p => new { p.Author_Id, p.Book_Id });
+        modelBuilder
+            .Entity<Fluent_BookAuthorMap>()
+            .HasOne(p => p.Book)
+            .WithMany(p => p.BookAuthorMap)
+            .HasForeignKey(p => p.Book_Id);
+        modelBuilder
+            .Entity<Fluent_BookAuthorMap>()
+            .HasOne(p => p.Author)
+            .WithMany(p => p.BookAuthorMap)
+            .HasForeignKey(p => p.Author_Id);
 
         modelBuilder
             .Entity<Book>()
