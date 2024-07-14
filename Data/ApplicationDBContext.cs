@@ -18,12 +18,15 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options
 
     public DbSet<BookDetail> BookDetails { get; set; }
 
+    public DbSet<BookAuthorMap> BookAuthorMaps { get; set; }
+
     // rename to Fluent_BookDetail
     public DbSet<Fluent_BookDetail> BookDetail_fluent { get; set; }
 
     public DbSet<Fluent_Book> Fluent_Books { get; set; }
     public DbSet<Fluent_Author> Fluent_Authors { get; set; }
     public DbSet<Fluent_Publisher> Fluent_Publishers { get; set; }
+    public DbSet<Fluent_BookAuthorMap> Fluent_BookAuthorMaps { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
