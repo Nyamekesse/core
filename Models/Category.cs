@@ -1,12 +1,12 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("tb_genres")]
-public class Genre
+
+public class Category
 {
     public int Id { get; set; }
     [Column("Name")]
-    public string GenreName { get; set; }
+    public string CategoryName { get; set; }
 
     public int DisplayOrder { get; set; }
 
