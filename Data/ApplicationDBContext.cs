@@ -1,4 +1,5 @@
 using System.Reflection.Emit;
+using ef_core.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
@@ -21,6 +22,7 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Book>().Property(p => p.Price).HasPrecision(10, 5);
+        modelBuilder.Entity<BookAuthorMap>().HasKey(u => new { u.Author_Id, u.Book_Id });
 
         modelBuilder
             .Entity<Book>()
