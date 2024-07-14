@@ -7,4 +7,7 @@ public class Fluent_Book
     public string ISBN { get; set; }
     public decimal Price { get; set; }
     public string PriceRange { get; set; }
+    public Fluent_BookDetail BookDetail { get; set; }
+    public int Publisher_Id { get; set; }
+    public Fluent_Publisher Publisher { get; set; }
 }
