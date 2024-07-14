@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ef_core.Models;
 
 public class Author
 {
@@ -22,5 +23,5 @@ public class Author
     {
         get { return $"{FirstName} {LastName}"; }
     }
-    public List<Book> Books { get; set; }
+    public List<BookAuthorMap> BookAuthorMap { get; set; }
 }

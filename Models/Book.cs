@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using ef_core.Models;
 
 public class Book
 {
@@ -14,5 +15,5 @@ public class Book
     [ForeignKey("Publisher")]
     public int Publisher_Id { get; set; }
     public Publisher Publisher { get; set; }
-    public List<Author> Authors { get; set; }
+    public List<BookAuthorMap> BookAuthorMap { get; set; }
 }
