@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ef_core.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240714222352_AddFluentOneoOneRElationBetweenBookAndBookDetail")]
+    partial class AddFluentOneoOneRElationBetweenBookAndBookDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,15 +278,10 @@ namespace ef_core.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("Publisher_Id")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
                     b.HasKey("Book_Id");
-
-                    b.HasIndex("Publisher_Id");
 
                     b.ToTable("Fluent_Books");
                 });
@@ -374,17 +372,6 @@ namespace ef_core.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("ef_core.Fluent_Book", b =>
-                {
-                    b.HasOne("ef_core.Fluent_Publisher", "Publisher")
-                        .WithMany("Books")
-                        .HasForeignKey("Publisher_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Publisher");
-                });
-
             modelBuilder.Entity("ef_core.Fluent_BookDetail", b =>
                 {
                     b.HasOne("ef_core.Fluent_Book", "Book")
@@ -435,11 +422,6 @@ namespace ef_core.Migrations
             modelBuilder.Entity("ef_core.Fluent_Book", b =>
                 {
                     b.Navigation("BookDetail");
-                });
-
-            modelBuilder.Entity("ef_core.Fluent_Publisher", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
