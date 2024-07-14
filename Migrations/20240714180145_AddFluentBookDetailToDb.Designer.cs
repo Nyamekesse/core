@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ef_core.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240714180145_AddFluentBookDetailToDb")]
+    partial class AddFluentBookDetailToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,58 +234,6 @@ namespace ef_core.Migrations
                     b.ToTable("SubCategories");
                 });
 
-            modelBuilder.Entity("ef_core.Fluent_Author", b =>
-                {
-                    b.Property<int>("Author_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Author_Id"));
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("text");
-
-                    b.HasKey("Author_Id");
-
-                    b.ToTable("Fluent_Authors");
-                });
-
-            modelBuilder.Entity("ef_core.Fluent_Book", b =>
-                {
-                    b.Property<int>("Book_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Book_Id"));
-
-                    b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.HasKey("Book_Id");
-
-                    b.ToTable("Fluent_Books");
-                });
-
             modelBuilder.Entity("ef_core.Fluent_BookDetail", b =>
                 {
                     b.Property<int>("BookDetail_Id")
@@ -304,26 +255,6 @@ namespace ef_core.Migrations
                     b.HasKey("BookDetail_Id");
 
                     b.ToTable("Fluent_BookDetails", (string)null);
-                });
-
-            modelBuilder.Entity("ef_core.Fluent_Publisher", b =>
-                {
-                    b.Property<int>("Publisher_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Publisher_Id"));
-
-                    b.Property<string>("Location")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Publisher_Id");
-
-                    b.ToTable("Fluent_Publishers");
                 });
 
             modelBuilder.Entity("ef_core.Models.BookAuthorMap", b =>
