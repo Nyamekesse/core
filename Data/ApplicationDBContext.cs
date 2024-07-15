@@ -33,55 +33,22 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options
         base.OnModelCreating(modelBuilder);
 
         // Fluent_BookDetail
-        modelBuilder.Entity<Fluent_BookDetail>().ToTable("Fluent_BookDetails");
-        modelBuilder
-            .Entity<Fluent_BookDetail>()
-            .Property(p => p.NumberOfChapters)
-            .HasColumnName("NoOfChapters");
-        modelBuilder.Entity<Fluent_BookDetail>().Property(p => p.NumberOfChapters).IsRequired();
-        modelBuilder.Entity<Fluent_BookDetail>().HasKey(p => p.BookDetail_Id);
-        modelBuilder
-            .Entity<Fluent_BookDetail>()
-            .HasOne(b => b.Book)
-            .WithOne(b => b.BookDetail)
-            .HasForeignKey<Fluent_BookDetail>(b => b.Book_Id)
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.ApplyConfiguration(new FluentBookDetailConfig());
 
         // Fluent_Book
-        modelBuilder.Entity<Fluent_Book>().HasKey(b => b.Book_Id);
-        modelBuilder.Entity<Fluent_Book>().Property(b => b.ISBN).IsRequired();
-        modelBuilder.Entity<Fluent_Book>().Property(b => b.ISBN).HasMaxLength(50);
-        modelBuilder.Entity<Fluent_Book>().Ignore(b => b.PriceRange);
-        modelBuilder
-            .Entity<Fluent_Book>()
-            .HasOne(b => b.Publisher)
-            .WithMany(b => b.Books)
-            .HasForeignKey(b => b.Publisher_Id);
+        modelBuilder.ApplyConfiguration(new FluentBookConfig());
 
         // Fluent_Publisher
-        modelBuilder.Entity<Fluent_Publisher>().HasKey(p => p.Publisher_Id);
-        modelBuilder.Entity<Fluent_Publisher>().Property(p => p.Name).IsRequired();
+        modelBuilder.ApplyConfiguration(new FluentPublisherConfig());
 
         // Fluent_Author
-        modelBuilder.Entity<Fluent_Author>().HasKey(p => p.Author_Id);
-        modelBuilder.Entity<Fluent_Author>().Property(p => p.FirstName).IsRequired();
-        modelBuilder.Entity<Fluent_Author>().Property(p => p.FirstName).HasMaxLength(50);
-        modelBuilder.Entity<Fluent_Author>().Property(p => p.LastName).IsRequired();
-        modelBuilder.Entity<Fluent_Author>().Ignore(p => p.FullName);
+        modelBuilder.ApplyConfiguration(new FluentAuthorConfig());
+
+        // Fluent_BookAuthorMap
+        modelBuilder.ApplyConfiguration(new FluentBookAuthorMap());
 
         modelBuilder.Entity<Book>().Property(p => p.Price).HasPrecision(10, 5);
         modelBuilder.Entity<BookAuthorMap>().HasKey(u => new { u.Author_Id, u.Book_Id });
-        modelBuilder.Entity<Fluent_BookAuthorMap>().HasKey(p => new { p.Author_Id, p.Book_Id });
-        modelBuilder
-            .Entity<Fluent_BookAuthorMap>()
-            .HasOne(p => p.Book)
-            .WithMany(p => p.BookAuthorMap)
-            .HasForeignKey(p => p.Book_Id);
-        modelBuilder
-            .Entity<Fluent_BookAuthorMap>()
-            .HasOne(p => p.Author)
-            .WithMany(p => p.BookAuthorMap)
-            .HasForeignKey(p => p.Author_Id);
 
         modelBuilder
             .Entity<Book>()
