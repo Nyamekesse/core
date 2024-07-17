@@ -125,5 +125,13 @@ public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options
                     Location = "Miami Beach"
                 }
             );
+
+        modelBuilder
+            .Entity<Category>()
+            .HasData(
+                new Category { Id = 1, CategoryName = "Fiction" },
+                new Category { Id = 2, CategoryName = "Non-fiction" },
+                new Category { Id = 3, CategoryName = "Novels" }
+            );
     }
 }
