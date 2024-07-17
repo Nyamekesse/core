@@ -65,4 +65,42 @@ public class CategoryController(ApplicationDBContext _db) : Controller
         await _db.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
+    public IActionResult CreateMultiple2()
+    {
+        List<Category> catList = [];
+        for (int i = 0; i < 2; i++)
+        {
+            catList.Add(new Category { CategoryName = Guid.NewGuid().ToString() });
+        }
+        _db.Categories.AddRange(catList);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult CreateMultiple5()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            _db.Categories.Add(new Category { CategoryName = Guid.NewGuid().ToString() });
+        }
+        _db.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult RemoveMultiple2()
+    {
+        List<Category> catList = _db.Categories.OrderByDescending(c => c.Id).Take(2).ToList();
+        _db.RemoveRange(catList);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult RemoveMultiple5()
+    {
+        List<Category> catList = _db.Categories.OrderByDescending(c => c.Id).Take(5).ToList();
+        _db.RemoveRange(catList);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
 }
