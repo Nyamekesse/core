@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ef_core.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ef_core;
+namespace ef_core.Controllers;
 
 public class AuthorController(ApplicationDBContext _db) : Controller
 {
@@ -38,10 +39,12 @@ public class AuthorController(ApplicationDBContext _db) : Controller
         {
             if (obj.Author_Id == 0)
             {
+                obj.BirthDate = obj.BirthDate.ToUniversalTime();
                 await _db.Authors.AddAsync(obj);
             }
             else
             {
+                obj.BirthDate = obj.BirthDate.ToUniversalTime();
                 _db.Authors.Update(obj);
             }
 

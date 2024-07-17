@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ef_core;
+namespace ef_core.Controllers;
 
 public class PublisherController(ApplicationDBContext _db) : Controller
 {

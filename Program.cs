@@ -12,10 +12,14 @@ var dbUserName = Environment.GetEnvironmentVariable("DB_USERNAME");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ApplicationDBContext>(options => { options.UseNpgsql($"Host={dbHost}; Database={dbName}; Username={dbUserName}; Password={dbPassword}"); });
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+{
+    options.UseNpgsql(
+        $"Host={dbHost}; Database={dbName}; Username={dbUserName}; Password={dbPassword}"
+    );
+});
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -32,8 +36,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
