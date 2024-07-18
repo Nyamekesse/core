@@ -102,4 +102,43 @@ public class BookController(ApplicationDBContext _db) : Controller
         }
         return RedirectToAction(nameof(Index));
     }
+
+    public IActionResult ManageAuthors(int id)
+    {
+        BookAuthorViewModel obj =
+            new()
+            {
+                BookAuthorList =
+                [
+                    .. _db
+                        .BookAuthorMaps.Include(b => b.Author)
+                        .Include(b => b.Book)
+                        .Where(b => b.Book_Id == id)
+                ],
+                BookAuthor = new() { Book_Id = id },
+                Book = _db.Books.FirstOrDefault(b => b.Id == id),
+            };
+        List<int> tempListOfAssignedAuthors = obj.BookAuthorList.Select(b => b.Author_Id).ToList();
+
+        var tempList = _db
+            .Authors.Where(a => !tempListOfAssignedAuthors.Contains(a.Author_Id))
+            .ToList();
+        obj.AuthorList = tempList.Select(a => new SelectListItem
+        {
+            Text = a.FullName,
+            Value = a.Author_Id.ToString()
+        });
+        return View(obj);
+    }
+
+    [HttpPost]
+    public IActionResult ManageAuthors(BookAuthorViewModel obj)
+    {
+        if (obj.BookAuthor.Book_Id != 0 && obj.BookAuthor.Author_Id != 0)
+        {
+            _db.BookAuthorMaps.Add(obj.BookAuthor);
+            _db.SaveChanges();
+        }
+        return RedirectToAction(nameof(ManageAuthors), new { @id = obj.BookAuthor.Book_Id });
+    }
 }
