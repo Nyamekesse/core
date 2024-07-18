@@ -9,6 +9,11 @@ public class BookController(ApplicationDBContext _db) : Controller
     public IActionResult Index()
     {
         List<Book> objList = [.. _db.Books];
+        foreach (var obj in objList)
+        {
+            // obj.Publisher = _db.Publishers.Find(obj.Publisher_Id);
+            _db.Entry(obj).Reference(b => b.Publisher).Load();
+        }
         return View(objList);
     }
 
@@ -61,6 +66,38 @@ public class BookController(ApplicationDBContext _db) : Controller
         }
         _db.Books.Remove(obj);
         await _db.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult Details(int? id)
+    {
+        BookDetail obj = new();
+        if (id is null || id == 0)
+        {
+            return NotFound();
+        }
+
+        obj.Book = _db.Books.FirstOrDefault(b => b.Id == id);
+        obj = _db.BookDetails.FirstOrDefault(b => b.Book_Id == id);
+        if (obj is null)
+        {
+            return NotFound();
+        }
+        return View(obj);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Details(BookDetail obj)
+    {
+        if (obj.BookDEtail_I == 0)
+        {
+            await _db.BookDetails.AddAsync(obj);
+        }
+        else
+        {
+            _db.BookDetails.Update(obj);
+        }
         return RedirectToAction(nameof(Index));
     }
 }
