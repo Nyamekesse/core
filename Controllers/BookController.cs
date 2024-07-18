@@ -1,6 +1,7 @@
 ﻿using ef_core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace ef_core;
 
@@ -8,24 +9,26 @@ public class BookController(ApplicationDBContext _db) : Controller
 {
     public IActionResult Index()
     {
-        List<Book> objList = [.. _db.Books];
-        foreach (var obj in objList)
-        {
-            // obj.Publisher = _db.Publishers.Find(obj.Publisher_Id);
-            _db.Entry(obj).Reference(b => b.Publisher).Load();
-        }
+        List<Book> objList = [.. _db.Books.Include(b => b.Publisher)];
+        // foreach (var obj in objList)
+        // {
+        //     // obj.Publisher = _db.Publishers.Find(obj.Publisher_Id);
+        //     _db.Entry(obj).Reference(b => b.Publisher).Load();
+        // }
         return View(objList);
     }
 
     public IActionResult Upsert(int? id)
     {
-        BookViewModel obj = new();
-
-        obj.PublisherList = _db.Publishers.Select(p => new SelectListItem
-        {
-            Text = p.Name,
-            Value = p.Publisher_Id.ToString()
-        });
+        BookViewModel obj =
+            new()
+            {
+                PublisherList = _db.Publishers.Select(p => new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Publisher_Id.ToString()
+                })
+            };
 
         if (id is null || id == 0)
         {
@@ -77,8 +80,7 @@ public class BookController(ApplicationDBContext _db) : Controller
             return NotFound();
         }
 
-        obj.Book = _db.Books.FirstOrDefault(b => b.Id == id);
-        obj = _db.BookDetails.FirstOrDefault(b => b.Book_Id == id);
+        obj = _db.BookDetails.Include(b => b.Book).FirstOrDefault(b => b.Book_Id == id);
         if (obj is null)
         {
             return NotFound();
@@ -88,11 +90,11 @@ public class BookController(ApplicationDBContext _db) : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Details(BookDetail obj)
+    public IActionResult Details(BookDetail obj)
     {
         if (obj.BookDEtail_I == 0)
         {
-            await _db.BookDetails.AddAsync(obj);
+            _db.BookDetails.Add(obj);
         }
         else
         {
