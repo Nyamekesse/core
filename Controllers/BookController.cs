@@ -54,7 +54,7 @@ public class BookController(ApplicationDBContext _db) : Controller
     public async Task<IActionResult> Delete(int id)
     {
         Book obj = new();
-        obj = _db.Books.FirstOrDefault(c => c.Id == id);
+        obj = _db.Books.FirstOrDefault(b => b.Id == id);
         if (obj is null)
         {
             return NotFound();
