@@ -10,5 +10,5 @@ public class Fluent_BookDetail
     public int NumberOfPages { get; set; }
     public string Weight { get; set; }
     public int Book_Id { get; set; }
-    public Fluent_Book Book { get; set; }
+    public virtual Fluent_Book Book { get; set; }
 }

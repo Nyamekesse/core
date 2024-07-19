@@ -9,6 +9,6 @@ public class Fluent_Book
     public string PriceRange { get; set; }
     public Fluent_BookDetail BookDetail { get; set; }
     public int Publisher_Id { get; set; }
-    public Fluent_Publisher Publisher { get; set; }
-    public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
+    public virtual Fluent_Publisher Publisher { get; set; }
+    public virtual List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
 }

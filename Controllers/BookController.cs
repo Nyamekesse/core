@@ -9,12 +9,26 @@ public class BookController(ApplicationDBContext _db) : Controller
 {
     public IActionResult Index()
     {
-        List<Book> objList = [.. _db.Books.Include(b => b.Publisher)];
+        List<Book> objList =
+        [
+            .. _db
+                .Books.Include(b => b.Publisher)
+                .Include(b => b.BookAuthorMap)
+                .ThenInclude(b => b.Author)
+        ];
+        // List<Book> objList = [.. _db.Books];
         // foreach (var obj in objList)
         // {
         //     // obj.Publisher = _db.Publishers.Find(obj.Publisher_Id);
         //     _db.Entry(obj).Reference(b => b.Publisher).Load();
+        //     _db.Entry(obj).Collection(b => b.BookAuthorMap).Load();
+
+        //     foreach (var bookAuth in obj.BookAuthorMap)
+        //     {
+        //         _db.Entry(bookAuth).Reference(b => b.Author).Load();
+        //     }
         // }
+
         return View(objList);
     }
 

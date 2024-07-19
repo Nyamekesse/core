@@ -13,5 +13,5 @@ public class Fluent_Author
         get { return $"{FirstName} {LastName}"; }
     }
 
-    public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
+    public virtual List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
 }

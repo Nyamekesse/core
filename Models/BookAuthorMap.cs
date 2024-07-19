@@ -13,7 +13,7 @@ namespace ef_core.Models
 
         [ForeignKey("Author")]
         public int Author_Id { get; set; }
-        public Book Book { get; set; }
-        public Author Author { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual Author Author { get; set; }
     }
 }

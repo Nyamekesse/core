@@ -14,9 +14,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
-    options.UseNpgsql(
-        $"Host={dbHost}; Database={dbName}; Username={dbUserName}; Password={dbPassword}"
-    );
+    options
+    // .UseLazyLoadingProxies()
+    .UseNpgsql($"Host={dbHost}; Database={dbName}; Username={dbUserName}; Password={dbPassword}");
 });
 
 var app = builder.Build();
