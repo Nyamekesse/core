@@ -141,4 +141,20 @@ public class BookController(ApplicationDBContext _db) : Controller
         }
         return RedirectToAction(nameof(ManageAuthors), new { @id = obj.BookAuthor.Book_Id });
     }
+
+    [HttpPost]
+    public IActionResult RemoveAuthors(int authorId, BookAuthorViewModel obj)
+    {
+        int bookId = obj.Book.Id;
+        var authorMapFromDb = _db.BookAuthorMaps.FirstOrDefault(b =>
+            b.Author_Id == authorId && b.Book_Id == bookId
+        );
+        if (authorMapFromDb is null)
+        {
+            return NotFound();
+        }
+        _db.BookAuthorMaps.Remove(authorMapFromDb);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(ManageAuthors), new { @id = bookId });
+    }
 }
